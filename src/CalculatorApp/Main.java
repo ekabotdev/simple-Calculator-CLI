@@ -27,17 +27,36 @@ public class Main {
         System.out.println("Calculator exited.");
     }
 
-    // 🔢 Method to get number input
+
+    //  Method to get number input
     public static double getNumber(Scanner scanner, String message) {
-        System.out.print(message);
-        return scanner.nextDouble();
+        while (true) {
+            System.out.print(message);
+            try {
+                return scanner.nextDouble();
+            } catch (Exception e) {
+                System.out.println("Invalid input, Please enter a valid number.");
+                scanner.next();
+            }
+
+        }
     }
 
-    // ➕ Method to get operator
+
+    //  Method to get operator
     public static char getOperator(Scanner scanner) {
-        System.out.print("Enter operator (+, -, *, /): ");
-        return scanner.next().charAt(0);
+        while (true) {
+            System.out.print("Enter operator (+, -, *, /): ");
+            char op = scanner.next().charAt(0);
+
+            if (op == '+' || op == '-' || op == '*' || op == '/') {
+                return op;
+            }else {
+                System.out.println("Invalid operator , please try again.");
+            }
+        }
     }
+
 
     // Method to calculate result
     public static Double calculate(double num1, double num2, char operator) {
