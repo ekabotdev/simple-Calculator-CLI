@@ -3,52 +3,73 @@ package CalculatorApp;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+
+        Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
         while (running) {
-            System.out.println("Enter first number: ");
-            double num1 = input.nextDouble();
 
-            System.out.println("Enter operator (+, _, *, /)");
-            char operator = input.next().charAt(0);
+            double num1 = getNumber(scanner, "Enter first number: ");
+            char operator = getOperator(scanner);
+            double num2 = getNumber(scanner, "Enter second number: ");
 
-            System.out.println("Enter second number: ");
-            double num2 = input.nextDouble();
+            Double result = calculate(num1, num2, operator);
 
-            double result;
-
-            switch (operator) {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
-                    if (num2 != 0) {
-                        result = num1 / num2;
-                    } else {
-                        System.out.println("Cannot divide by zero");
-                        continue;
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid operator");
-                    continue;
+            if (result != null) {
+                System.out.println("Result: " + result);
             }
-            System.out.println("The result is: " + result);
-            System.out.println("Do you want to continue? (yes/no) :");
-            String choice = input.next();
 
-            if (choice.equalsIgnoreCase("no")) {
-                running = false;
-                System.out.println("Calculator exited.");
-            }
+            running = shouldContinue(scanner);
         }
+
+        System.out.println("Calculator exited.");
+    }
+
+    // 🔢 Method to get number input
+    public static double getNumber(Scanner scanner, String message) {
+        System.out.print(message);
+        return scanner.nextDouble();
+    }
+
+    // ➕ Method to get operator
+    public static char getOperator(Scanner scanner) {
+        System.out.print("Enter operator (+, -, *, /): ");
+        return scanner.next().charAt(0);
+    }
+
+    // Method to calculate result
+    public static Double calculate(double num1, double num2, char operator) {
+
+        switch (operator) {
+            case '+':
+                return num1 + num2;
+
+            case '-':
+                return num1 - num2;
+
+            case '*':
+                return num1 * num2;
+
+            case '/':
+                if (num2 != 0) {
+                    return num1 / num2;
+                } else {
+                    System.out.println("Error: Cannot divide by zero.");
+                    return null;
+                }
+
+            default:
+                System.out.println("Invalid operator.");
+                return null;
+        }
+    }
+
+    //  Method to check if user wants to continue
+    public static boolean shouldContinue(Scanner scanner) {
+        System.out.print("Do you want to continue? (yes/no): ");
+        String choice = scanner.next();
+        return !choice.equalsIgnoreCase("no");
     }
 }
